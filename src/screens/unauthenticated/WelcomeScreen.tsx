@@ -2,22 +2,19 @@ import React from 'react';
 import GlobalStyles from '@Constants/styles';
 import { StyleSheet, Text, View, Pressable } from 'react-native';
 import Button from '@Components/Button';
-import screenEnums from '@Constants/screenEnums';
+import type { UnAuthScreenProps } from '@Navigation/types';
 
-const WelcomeScreen = ({ navigation }: any) => {
+const WelcomeScreen = ({ navigation }: UnAuthScreenProps<'Welcome'>) => {
   return (
     <View style={styles.container}>
       <View style={styles.textContainer}>
         <Text style={styles.welcomeText}>OwnCoach</Text>
       </View>
       <View style={styles.buttonContainer}>
-        <Button
-          onPress={() => navigation.navigate(screenEnums.LOGIN)}
-          text={'Log in'}
-        />
+        <Button onPress={() => navigation.navigate('SignIn')} text={'Log in'} />
         <View style={styles.signUpContainer}>
           <Text style={styles.signUpText}>New to OwnCoach? </Text>
-          <Pressable onPress={() => navigation.navigate(screenEnums.SIGNUP)}>
+          <Pressable onPress={() => navigation.navigate('SignUp')}>
             <Text style={styles.signUpLink}>Sign Up!</Text>
           </Pressable>
         </View>
@@ -30,6 +27,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 24,
+    paddingBottom: 60,
     backgroundColor: GlobalStyles.colors.darkmode.primary,
   },
   textContainer: {

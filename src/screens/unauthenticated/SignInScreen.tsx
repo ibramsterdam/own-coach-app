@@ -8,16 +8,12 @@ import Input from '@Components/Input';
 const SignInScreen = ({ navigation }: UnAuthScreenProps<'SignIn'>) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
 
   const handleEmailInput = (input: string) => {
     setEmail(input);
   };
   const handlePasswordInput = (input: string) => {
     setPassword(input);
-  };
-  const handleConfirmPasswordInput = (input: string) => {
-    setConfirmPassword(input);
   };
 
   return (
@@ -40,12 +36,6 @@ const SignInScreen = ({ navigation }: UnAuthScreenProps<'SignIn'>) => {
           onChangeText={handlePasswordInput}
           value={password}
         />
-        <Input
-          label={'ConfirmPassword'}
-          secureTextEntry
-          onChangeText={handleConfirmPasswordInput}
-          value={password}
-        />
       </View>
       <View style={styles.buttonContainer}>
         <Button onPress={() => console.log('Hello')} text={'Continue'} />
@@ -57,9 +47,7 @@ const SignInScreen = ({ navigation }: UnAuthScreenProps<'SignIn'>) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 24,
-    paddingRight: 24,
-    paddingLeft: 24,
+    padding: 24,
     backgroundColor: GlobalStyles.colors.darkmode.primary,
   },
   textContainer: {

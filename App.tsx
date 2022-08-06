@@ -1,4 +1,4 @@
-import RootNavigation from '@Screens/RootNavigation';
+import RootNavigation from 'src/navigation/RootNavigation';
 import { StatusBar } from 'expo-status-bar';
 
 export default function App() {

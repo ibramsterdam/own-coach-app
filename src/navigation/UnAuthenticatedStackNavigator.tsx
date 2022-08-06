@@ -1,14 +1,19 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import LoginScreen from '@Screens/unauthenticated/LoginScreen';
+import SignInScreen from '@Screens/unauthenticated/SignInScreen';
 import SignUpScreen from '@Screens/unauthenticated/SignUpScreen';
 import WelcomeScreen from '@Screens/unauthenticated/WelcomeScreen';
 import GlobalStyles from '@Constants/styles';
-import screenEnums from '@Constants/screenEnums';
 
-const Stack = createNativeStackNavigator();
+type RootStackParamList = {
+  Welcome: undefined;
+  SignIn: undefined;
+  SignUp: undefined;
+};
 
-const AuthenticatedStack = () => {
+const Stack = createNativeStackNavigator<RootStackParamList>();
+
+const UnAuthenticatedStackNavigator = () => {
   return (
     <Stack.Navigator
       screenOptions={{
@@ -17,14 +22,22 @@ const AuthenticatedStack = () => {
       }}
     >
       <Stack.Screen
-        name={screenEnums.WELCOME}
+        name={'Welcome'}
         component={WelcomeScreen}
         options={{ title: '' }}
       />
-      <Stack.Screen name={screenEnums.LOGIN} component={LoginScreen} />
-      <Stack.Screen name={screenEnums.SIGNUP} component={SignUpScreen} />
+      <Stack.Screen
+        name={'SignIn'}
+        component={SignInScreen}
+        options={{ title: '' }}
+      />
+      <Stack.Screen
+        name={'SignUp'}
+        component={SignUpScreen}
+        options={{ title: '' }}
+      />
     </Stack.Navigator>
   );
 };
 
-export default AuthenticatedStack;
+export default UnAuthenticatedStackNavigator;
