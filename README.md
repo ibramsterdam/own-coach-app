@@ -52,6 +52,7 @@ Please make sure to update tests as appropriate.
 - Track Nutrition
 - Track Workouts
 - Manage Profile
+- Show workout graphs
 
 ## License
 
