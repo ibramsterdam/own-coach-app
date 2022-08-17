@@ -22,33 +22,35 @@ const SignInScreen = ({ navigation }: UnAuthScreenProps<'SignIn'>) => {
 
   return (
     <KeyboardAvoidingView
-      keyboardVerticalOffset={100}
+      keyboardVerticalOffset={18}
+      style={{ flex: 1 }}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={styles.container}
     >
-      <View style={styles.textContainer}>
-        <Input
-          label={'E-mail'}
-          autoFocus
-          onChangeText={handleEmailInput}
-          keyboardType={'email-address'}
-          value={email}
-        />
-        <Input
-          label={'Password'}
-          secureTextEntry
-          onChangeText={handlePasswordInput}
-          value={password}
-        />
-        <Input
-          label={'ConfirmPassword'}
-          secureTextEntry
-          onChangeText={handleConfirmPasswordInput}
-          value={password}
-        />
-      </View>
-      <View style={styles.buttonContainer}>
-        <Button onPress={() => console.log('Hello')} text={'Continue'} />
+      <View style={styles.container}>
+        <View style={styles.textContainer}>
+          <Input
+            label={'E-mail'}
+            autoFocus
+            onChangeText={handleEmailInput}
+            keyboardType={'email-address'}
+            value={email}
+          />
+          <Input
+            label={'Password'}
+            secureTextEntry
+            onChangeText={handlePasswordInput}
+            value={password}
+          />
+          <Input
+            label={'Confirm Password'}
+            secureTextEntry
+            onChangeText={handleConfirmPasswordInput}
+            value={password}
+          />
+        </View>
+        <View style={styles.buttonContainer}>
+          <Button onPress={() => console.log('Hello')} text={'Continue'} />
+        </View>
       </View>
     </KeyboardAvoidingView>
   );
@@ -57,9 +59,7 @@ const SignInScreen = ({ navigation }: UnAuthScreenProps<'SignIn'>) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 24,
-    paddingRight: 24,
-    paddingLeft: 24,
+    padding: 24,
     backgroundColor: GlobalStyles.colors.darkmode.primary,
   },
   textContainer: {
@@ -69,27 +69,8 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flex: 0.4,
+    marginBottom: 45,
     justifyContent: 'flex-end',
-  },
-  signUpContainer: {
-    paddingTop: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
-  },
-  welcomeText: {
-    color: GlobalStyles.colors.neutral.N0,
-    fontSize: 24,
-    fontWeight: '500',
-  },
-  signUpText: {
-    color: GlobalStyles.colors.neutral.N0,
-  },
-  signUpLink: {
-    fontWeight: '700',
-    color: 'white',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 });
 export default SignInScreen;
