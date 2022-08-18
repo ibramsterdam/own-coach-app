@@ -1,40 +1,35 @@
-import React from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import SignInScreen from '@Screens/unauthenticated/SignInScreen';
-import SignUpScreen from '@Screens/unauthenticated/SignUpScreen';
-import WelcomeScreen from '@Screens/unauthenticated/WelcomeScreen';
-import GlobalStyles from '@Constants/styles';
+import React from "react";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import SignInScreen from "@Screens/unauthenticated/SignInScreen";
+import SignUpScreen from "@Screens/unauthenticated/SignUpScreen";
+import WelcomeScreen from "@Screens/unauthenticated/WelcomeScreen";
+import GlobalStyles from "@Constants/styles";
+import { UnAuthenticatedStackList } from "@Navigation/types";
 
-type RootStackParamList = {
-  Welcome: undefined;
-  SignIn: undefined;
-  SignUp: undefined;
-};
-
-const Stack = createNativeStackNavigator<RootStackParamList>();
+const Stack = createNativeStackNavigator<UnAuthenticatedStackList>();
 
 const UnAuthenticatedStackNavigator = () => {
   return (
     <Stack.Navigator
       screenOptions={{
         headerStyle: { backgroundColor: GlobalStyles.colors.darkmode.primary },
-        headerTintColor: 'white',
+        headerTintColor: "white",
       }}
     >
       <Stack.Screen
-        name={'Welcome'}
+        name={"Welcome"}
         component={WelcomeScreen}
-        options={{ title: '' }}
+        options={{ title: "" }}
       />
       <Stack.Screen
-        name={'SignIn'}
+        name={"SignIn"}
         component={SignInScreen}
-        options={{ title: '' }}
+        options={{ title: "" }}
       />
       <Stack.Screen
-        name={'SignUp'}
+        name={"SignUp"}
         component={SignUpScreen}
-        options={{ title: '' }}
+        options={{ title: "" }}
       />
     </Stack.Navigator>
   );

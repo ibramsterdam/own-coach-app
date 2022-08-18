@@ -1,13 +1,25 @@
 import React, { useState } from "react";
 import Button from "@Components/Button";
 import GlobalStyles from "@Constants/styles";
-import { StyleSheet, View, KeyboardAvoidingView, Platform } from "react-native";
+import {
+  StyleSheet,
+  View,
+  KeyboardAvoidingView,
+  Platform,
+  ActivityIndicator,
+  TouchableOpacity,
+  Text,
+  Alert,
+} from "react-native";
 import type { UnAuthScreenProps } from "@Navigation/types";
 import Input from "@Components/Input";
 import { signIn } from "../../api/authApi";
 import validateEmail from "@Utils/validateEmail";
+import { clientAuthState, useClientStore } from "@Utils/zustandStore";
 
 const SignInScreen = ({ navigation }: UnAuthScreenProps<"SignIn">) => {
+  const setAuthState = useClientStore((state) => state.setAuthState);
+  const authState = useClientStore((state) => state.authState);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailValidationError, setEmailValidationError] = useState<
@@ -23,12 +35,31 @@ const SignInScreen = ({ navigation }: UnAuthScreenProps<"SignIn">) => {
 
   const handleLogin = async (email: string, password: string) => {
     const validationError = validateEmail(email);
+
     if (validationError) {
       setEmailValidationError(validationError);
       return;
     }
+
     setEmailValidationError(undefined);
-    const test = await signIn({ email, password });
+    setAuthState(clientAuthState.LOADING);
+    const result = await signIn({ email, password });
+
+    if (result.message === "Login Success") {
+      setAuthState(clientAuthState.AUTHENTICATED);
+    }
+
+    if (result.message === "Login Failed") {
+      setAuthState(clientAuthState.NOT_AUTHENTICATED);
+      Alert.alert("Failed :(", "Could not authenticate", [
+        {
+          text: "Try Again",
+          onPress: () => {
+            setPassword("");
+          },
+        },
+      ]);
+    }
   };
 
   return (
@@ -55,10 +86,16 @@ const SignInScreen = ({ navigation }: UnAuthScreenProps<"SignIn">) => {
           />
         </View>
         <View style={styles.buttonContainer}>
-          <Button
-            onPress={() => handleLogin(email, password)}
-            text={"Continue"}
-          />
+          <TouchableOpacity
+            style={styles.pressable}
+            onPress={() => handleLogin(email.toLowerCase(), password)}
+          >
+            {authState === clientAuthState.LOADING ? (
+              <ActivityIndicator color='white' />
+            ) : (
+              <Text style={styles.text}>Continue</Text>
+            )}
+          </TouchableOpacity>
         </View>
       </View>
     </KeyboardAvoidingView>
@@ -80,6 +117,22 @@ const styles = StyleSheet.create({
     marginBottom: 45,
     flex: 0.4,
     justifyContent: "flex-end",
+  },
+  pressable: {
+    backgroundColor: GlobalStyles.colors.darkmode.secondary,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 6,
+    paddingTop: 12,
+    paddingRight: 6,
+    paddingBottom: 12,
+    paddingLeft: 6,
+    margin: 6,
+    height: 45,
+  },
+  text: {
+    color: GlobalStyles.colors.neutral.N0,
+    fontSize: 18,
   },
 });
 export default SignInScreen;

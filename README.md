@@ -26,13 +26,24 @@ $ yarn install
 ```
 
 3. Create .env.local file
-   -No env needed yet-
+   `API_BASE`
 
 ## Run development server
 
 ```shell
 $ yarn start
 ```
+
+## Using expo app on phone?
+
+When using the expo app on your phone for the development process make sure your server is on https. You can use a cloudflare tunnel to handle this.
+Update the `API_BASE` variable accordingly.
+
+```shell
+$ cloudflared tunnel --url http://localhost:3000/
+```
+
+More info can be found https://developers.cloudflare.com/pages/how-to/preview-with-cloudflare-tunnel/
 
 ## Contributing
 
