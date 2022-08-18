@@ -20,6 +20,7 @@
       "@Constants/*": ["./src/constants/*"],
       "@Navigation/*": ["./src/navigation/*"],
       "@Models/*": ["./src/models/*"],
+      "@Utils/*": ["./src/utils/*"],
       "@Api/*": ["./src/api/*"]
     }
   },

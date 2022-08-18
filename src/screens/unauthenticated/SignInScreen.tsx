@@ -4,11 +4,15 @@ import GlobalStyles from "@Constants/styles";
 import { StyleSheet, View, KeyboardAvoidingView, Platform } from "react-native";
 import type { UnAuthScreenProps } from "@Navigation/types";
 import Input from "@Components/Input";
-import { signInUser } from "../../api/authApi";
+import { signIn } from "../../api/authApi";
+import validateEmail from "@Utils/validateEmail";
 
 const SignInScreen = ({ navigation }: UnAuthScreenProps<"SignIn">) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [emailValidationError, setEmailValidationError] = useState<
+    undefined | string
+  >(undefined);
 
   const handleEmailInput = (input: string) => {
     setEmail(input);
@@ -18,8 +22,13 @@ const SignInScreen = ({ navigation }: UnAuthScreenProps<"SignIn">) => {
   };
 
   const handleLogin = async (email: string, password: string) => {
-    const result = await signInUser({ email, password });
-    console.log(result);
+    const validationError = validateEmail(email);
+    if (validationError) {
+      setEmailValidationError(validationError);
+      return;
+    }
+    setEmailValidationError(undefined);
+    const test = await signIn({ email, password });
   };
 
   return (
@@ -31,6 +40,7 @@ const SignInScreen = ({ navigation }: UnAuthScreenProps<"SignIn">) => {
       <View style={styles.container}>
         <View style={styles.textContainer}>
           <Input
+            error={emailValidationError}
             label={"E-mail"}
             autoFocus
             onChangeText={handleEmailInput}
@@ -46,7 +56,7 @@ const SignInScreen = ({ navigation }: UnAuthScreenProps<"SignIn">) => {
         </View>
         <View style={styles.buttonContainer}>
           <Button
-            onPress={() => console.log(handleLogin(email, password))}
+            onPress={() => handleLogin(email, password)}
             text={"Continue"}
           />
         </View>

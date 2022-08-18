@@ -10,7 +10,7 @@ export type LoginResponse = ApiResponse & {
   message: "Login Success" | "Login Failed";
 };
 
-export const signInUser = async (credentials: {
+export const signIn = async (credentials: {
   email: string;
   password: string;
 }): Promise<LoginResponse> => {
@@ -23,12 +23,9 @@ export const signInUser = async (credentials: {
     },
   };
 
-  console.log(config);
-
   return axios(config)
     .then((response: AxiosResponse) => {
-      console.log(response);
-
+      console.log("Cookie", response.data.access_token);
       return {
         message: "Login Success",
       } as LoginResponse;

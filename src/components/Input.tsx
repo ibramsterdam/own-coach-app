@@ -1,16 +1,16 @@
-import GlobalStyles from '@Constants/styles';
-import React from 'react';
+import GlobalStyles from "@Constants/styles";
+import React from "react";
 import {
   StyleSheet,
   TextInput as RNTextInput,
   KeyboardType,
   View,
   Text,
-} from 'react-native';
+} from "react-native";
 
 type Props = {
+  error?: string;
   autoFocus?: boolean;
-  isInvalid?: boolean;
   secureTextEntry?: boolean;
   placeholder?: string;
   label?: string;
@@ -22,17 +22,15 @@ const Input = ({
   label,
   value,
   autoFocus,
-  isInvalid,
   placeholder,
   keyboardType,
   secureTextEntry,
   onChangeText,
+  error,
 }: Props) => {
   return (
     <View style={styles.inputContainer}>
-      <Text style={[styles.label, isInvalid && styles.labelInvalid]}>
-        {label}
-      </Text>
+      <Text style={styles.label}>{label}</Text>
       <RNTextInput
         secureTextEntry={secureTextEntry}
         autoFocus={autoFocus}
@@ -42,6 +40,7 @@ const Input = ({
         value={value}
         placeholder={placeholder}
       />
+      <Text style={styles.labelInvalid}>{error}</Text>
     </View>
   );
 };
@@ -51,7 +50,7 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   label: {
-    color: 'white',
+    color: "white",
     marginBottom: 4,
   },
   labelInvalid: {
@@ -66,7 +65,7 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     padding: 10,
     minWidth: 280,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     color: GlobalStyles.colors.darkmode.secondary,
   },
 });
