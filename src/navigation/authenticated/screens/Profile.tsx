@@ -1,19 +1,17 @@
 import React from "react";
 import GlobalStyles from "@Constants/styles";
-import { StyleSheet, Text, View, Pressable } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import Button from "@Components/Button";
 import type { AuthScreenProps } from "@Navigation/types";
 import { removeValue } from "@Utils/expoSecureStore";
 import { clientAuthState, useClientStore } from "@Utils/zustandStore";
 
-const TempScreen = ({ navigation }: AuthScreenProps<"Logout">) => {
+const Profile = ({ navigation }: AuthScreenProps<"Profile">) => {
   const setAuthState = useClientStore((state) => state.setAuthState);
 
   return (
     <View style={styles.container}>
-      <View style={styles.textContainer}>
-        <Text style={styles.welcomeText}>Logout!</Text>
-      </View>
+      <View style={styles.textContainer}></View>
       <View style={styles.buttonContainer}>
         <Button
           onPress={() => {
@@ -49,4 +47,4 @@ const styles = StyleSheet.create({
     fontWeight: "500",
   },
 });
-export default TempScreen;
+export default Profile;

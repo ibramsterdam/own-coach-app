@@ -8,7 +8,7 @@ import { UnAuthenticatedStackList } from "@Navigation/types";
 
 const Stack = createNativeStackNavigator<UnAuthenticatedStackList>();
 
-const UnAuthenticatedStackNavigator = () => {
+const UnAuthenticatedRootNavigator = () => {
   return (
     <Stack.Navigator
       screenOptions={{
@@ -35,4 +35,4 @@ const UnAuthenticatedStackNavigator = () => {
   );
 };
 
-export default UnAuthenticatedStackNavigator;
+export default UnAuthenticatedRootNavigator;

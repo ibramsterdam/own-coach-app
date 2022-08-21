@@ -1,7 +1,7 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import UnAuthenticatedStackNavigator from "@Navigation/unauthenticated/UnAuthenticatedStackNavigator";
-import AuthenticatedStackNavigator from "@Navigation/authenticated/AuthenticatedStackNavigator";
+import UnAuthenticatedRootNavigator from "@Navigation/unauthenticated/UnAuthenticatedRootNavigator";
+import AuthenticatedRootNavigator from "@Navigation/authenticated/AuthenticatedRootNavigator";
 import { clientAuthState, useClientStore } from "@Utils/zustandStore";
 
 const RootNavigation = () => {
@@ -10,14 +10,14 @@ const RootNavigation = () => {
   if (authState === clientAuthState.AUTHENTICATED) {
     return (
       <NavigationContainer>
-        <AuthenticatedStackNavigator />
+        <AuthenticatedRootNavigator />
       </NavigationContainer>
     );
   }
 
   return (
     <NavigationContainer>
-      <UnAuthenticatedStackNavigator />
+      <UnAuthenticatedRootNavigator />
     </NavigationContainer>
   );
 };

@@ -1,6 +1,13 @@
 import React from "react";
 import GlobalStyles from "@Constants/styles";
-import { StyleSheet, Text, View, Pressable } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Pressable,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
 import Button from "@Components/Button";
 import type { UnAuthScreenProps } from "@Navigation/types";
 
@@ -11,7 +18,14 @@ const WelcomeScreen = ({ navigation }: UnAuthScreenProps<"Welcome">) => {
         <Text style={styles.welcomeText}>OwnCoach</Text>
       </View>
       <View style={styles.buttonContainer}>
-        <Button onPress={() => navigation.navigate("SignIn")} text={"Log in"} />
+        <View>
+          <TouchableOpacity
+            style={styles.pressable}
+            onPress={() => navigation.navigate("SignIn")}
+          >
+            <Text style={styles.text}>Sign in</Text>
+          </TouchableOpacity>
+        </View>
         <View style={styles.signUpContainer}>
           <Text style={styles.signUpText}>New to OwnCoach? </Text>
           <Pressable onPress={() => navigation.navigate("SignUp")}>
@@ -58,6 +72,19 @@ const styles = StyleSheet.create({
     color: "white",
     alignItems: "center",
     justifyContent: "center",
+  },
+  pressable: {
+    backgroundColor: GlobalStyles.colors.darkmode.secondary,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 6,
+    padding: 6,
+    margin: 6,
+    height: 45,
+  },
+  text: {
+    color: GlobalStyles.colors.neutral.N0,
+    fontSize: 18,
   },
 });
 export default WelcomeScreen;

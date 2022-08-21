@@ -25,7 +25,8 @@ export type UnAuthScreenProps<T extends keyof UnAuthenticatedStackList> =
   >;
 
 export type AuthenticatedStackList = {
-  Logout: undefined;
+  Track: undefined;
+  Profile: undefined;
 };
 
 export type AuthScreenProps<T extends keyof AuthenticatedStackList> =
