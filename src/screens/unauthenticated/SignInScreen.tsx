@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Button from "@Components/Button";
 import GlobalStyles from "@Constants/styles";
 import {
   StyleSheet,
@@ -13,7 +12,7 @@ import {
 } from "react-native";
 import type { UnAuthScreenProps } from "@Navigation/types";
 import Input from "@Components/Input";
-import { signIn } from "../../api/authApi";
+import { signIn } from "@Api/authApi";
 import validateEmail from "@Utils/validateEmail";
 import { clientAuthState, useClientStore } from "@Utils/zustandStore";
 
@@ -33,7 +32,7 @@ const SignInScreen = ({ navigation }: UnAuthScreenProps<"SignIn">) => {
     setPassword(input);
   };
 
-  const handleLogin = async (email: string, password: string) => {
+  const handleSignIn = async (email: string, password: string) => {
     const validationError = validateEmail(email);
 
     if (validationError) {
@@ -45,11 +44,11 @@ const SignInScreen = ({ navigation }: UnAuthScreenProps<"SignIn">) => {
     setAuthState(clientAuthState.LOADING);
     const result = await signIn({ email, password });
 
-    if (result.message === "Login Success") {
+    if (result.message === "SignIn Success") {
       setAuthState(clientAuthState.AUTHENTICATED);
     }
 
-    if (result.message === "Login Failed") {
+    if (result.message === "SignIn Failed") {
       setAuthState(clientAuthState.NOT_AUTHENTICATED);
       Alert.alert("Failed :(", "Could not authenticate", [
         {
@@ -88,7 +87,7 @@ const SignInScreen = ({ navigation }: UnAuthScreenProps<"SignIn">) => {
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={styles.pressable}
-            onPress={() => handleLogin(email.toLowerCase(), password)}
+            onPress={() => handleSignIn(email.toLowerCase(), password)}
           >
             {authState === clientAuthState.LOADING ? (
               <ActivityIndicator color='white' />

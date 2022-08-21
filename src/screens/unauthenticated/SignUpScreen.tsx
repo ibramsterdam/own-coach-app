@@ -1,14 +1,35 @@
-import React, { useState } from 'react';
-import Button from '@Components/Button';
-import GlobalStyles from '@Constants/styles';
-import { StyleSheet, View, KeyboardAvoidingView, Platform } from 'react-native';
-import type { UnAuthScreenProps } from '@Navigation/types';
-import Input from '@Components/Input';
+import React, { useState } from "react";
+import GlobalStyles from "@Constants/styles";
+import { signUp } from "@Api/authApi";
 
-const SignInScreen = ({ navigation }: UnAuthScreenProps<'SignIn'>) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+import {
+  StyleSheet,
+  View,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableOpacity,
+  ActivityIndicator,
+  Text,
+  Alert,
+} from "react-native";
+import type { UnAuthScreenProps } from "@Navigation/types";
+import Input from "@Components/Input";
+import validateEmail from "@Utils/validateEmail";
+import validatePassword from "@Utils/validatePassword";
+import { clientAuthState, useClientStore } from "@Utils/zustandStore";
+
+const SignInScreen = ({ navigation }: UnAuthScreenProps<"SignIn">) => {
+  const setAuthState = useClientStore((state) => state.setAuthState);
+  const authState = useClientStore((state) => state.authState);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [emailValidationError, setEmailValidationError] = useState<
+    undefined | string
+  >(undefined);
+  const [passwordValidationError, setPasswordValidationError] = useState<
+    undefined | string
+  >(undefined);
 
   const handleEmailInput = (input: string) => {
     setEmail(input);
@@ -20,36 +41,95 @@ const SignInScreen = ({ navigation }: UnAuthScreenProps<'SignIn'>) => {
     setConfirmPassword(input);
   };
 
+  const handleSignup = async (
+    email: string,
+    password: string,
+    confirmPassword: string
+  ) => {
+    setEmailValidationError(undefined);
+    setPasswordValidationError(undefined);
+    setPassword("");
+    setConfirmPassword("");
+
+    const validationError = validateEmail(email);
+    const passwordValidationError = validatePassword(password);
+
+    if (validationError) {
+      setEmailValidationError(validationError);
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setPasswordValidationError("not the same bro");
+      return;
+    }
+
+    if (passwordValidationError) {
+      setPasswordValidationError(passwordValidationError);
+      return;
+    }
+
+    setAuthState(clientAuthState.LOADING);
+    const result = await signUp({ email, password });
+
+    if (result.message === "SignUp Success") {
+      setAuthState(clientAuthState.AUTHENTICATED);
+    }
+
+    if (result.message === "SignUp Failed") {
+      setAuthState(clientAuthState.NOT_AUTHENTICATED);
+      Alert.alert("Failed :(", "Could not SignUp", [
+        {
+          text: "Try Again",
+        },
+      ]);
+    }
+  };
+
   return (
     <KeyboardAvoidingView
       keyboardVerticalOffset={18}
       style={{ flex: 1 }}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       <View style={styles.container}>
         <View style={styles.textContainer}>
           <Input
-            label={'E-mail'}
+            error={emailValidationError}
+            label={"E-mail"}
             autoFocus
             onChangeText={handleEmailInput}
-            keyboardType={'email-address'}
+            keyboardType={"email-address"}
             value={email}
           />
           <Input
-            label={'Password'}
+            error={passwordValidationError}
+            label={"Password"}
             secureTextEntry
             onChangeText={handlePasswordInput}
             value={password}
           />
           <Input
-            label={'Confirm Password'}
+            error={passwordValidationError}
+            label={"Confirm Password"}
             secureTextEntry
             onChangeText={handleConfirmPasswordInput}
-            value={password}
+            value={confirmPassword}
           />
         </View>
         <View style={styles.buttonContainer}>
-          <Button onPress={() => console.log('Hello')} text={'Continue'} />
+          <TouchableOpacity
+            style={styles.pressable}
+            onPress={() =>
+              handleSignup(email.toLowerCase(), password, confirmPassword)
+            }
+          >
+            {authState === clientAuthState.LOADING ? (
+              <ActivityIndicator color='white' />
+            ) : (
+              <Text style={styles.text}>Continue</Text>
+            )}
+          </TouchableOpacity>
         </View>
       </View>
     </KeyboardAvoidingView>
@@ -64,13 +144,29 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     flex: 0.6,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   buttonContainer: {
     flex: 0.4,
     marginBottom: 45,
-    justifyContent: 'flex-end',
+    justifyContent: "flex-end",
+  },
+  pressable: {
+    backgroundColor: GlobalStyles.colors.darkmode.secondary,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 6,
+    paddingTop: 12,
+    paddingRight: 6,
+    paddingBottom: 12,
+    paddingLeft: 6,
+    margin: 6,
+    height: 45,
+  },
+  text: {
+    color: GlobalStyles.colors.neutral.N0,
+    fontSize: 18,
   },
 });
 export default SignInScreen;
