@@ -1,8 +1,8 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import SignInScreen from "@Screens/unauthenticated/SignInScreen";
-import SignUpScreen from "@Screens/unauthenticated/SignUpScreen";
-import WelcomeScreen from "@Screens/unauthenticated/WelcomeScreen";
+import SignInScreen from "@Navigation/unauthenticated/screens/SignInScreen";
+import SignUpScreen from "@Navigation/unauthenticated/screens/SignUpScreen";
+import WelcomeScreen from "@Navigation/unauthenticated/screens/WelcomeScreen";
 import GlobalStyles from "@Constants/styles";
 import { UnAuthenticatedStackList } from "@Navigation/types";
 

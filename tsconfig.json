@@ -16,7 +16,6 @@
     "paths": {
       "@Components/*": ["./src/components/*"],
       "@Assets/*": ["./src/assets/*"],
-      "@Screens/*": ["./src/screens/*"],
       "@Constants/*": ["./src/constants/*"],
       "@Navigation/*": ["./src/navigation/*"],
       "@Models/*": ["./src/models/*"],

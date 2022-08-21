@@ -1,7 +1,7 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import UnAuthenticatedStackNavigator from "@Navigation/UnAuthenticatedStackNavigator";
-import AuthenticatedStackNavigator from "@Navigation/AuthenticatedStackNavigator";
+import UnAuthenticatedStackNavigator from "@Navigation/unauthenticated/UnAuthenticatedStackNavigator";
+import AuthenticatedStackNavigator from "@Navigation/authenticated/AuthenticatedStackNavigator";
 import { clientAuthState, useClientStore } from "@Utils/zustandStore";
 
 const RootNavigation = () => {
